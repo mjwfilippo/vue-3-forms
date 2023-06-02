@@ -1,5 +1,6 @@
 <script setup>
 import UniqueID from "../features/UniqueID";
+import BaseErrorMessage from "./BaseErrorMessage.vue";
 
 defineProps({
   label: {
@@ -13,6 +14,10 @@ defineProps({
   options: {
     type: Array,
     required: true
+  },
+  error: {
+    type: String,
+    default: ""
   }
 });
 const uuid = UniqueID().getID();
@@ -21,15 +26,18 @@ const uuid = UniqueID().getID();
 <template>
   <label :for="uuid" v-if="label">{{ label }}</label>
   <select
-    :value="modelValue"
-    :id="uuid"
     class="field"
+    :id="uuid"
+    :value="modelValue"
     v-bind="{
       ...$attrs,
       onChange: $event => {
         $emit('update:modelValue', $event.target.value);
       }
     }"
+    aria-describedby="error ? `${uuid}-error` : null"
+    aria-invalid="error ? true : false"
+    :class="{ error }"
   >
     <option
       v-for="option in options"
@@ -40,4 +48,7 @@ const uuid = UniqueID().getID();
       {{ option }}
     </option>
   </select>
+  <BaseErrorMessage v-if="error" :id="`${uuid}-error`">
+    {{ error }}
+  </BaseErrorMessage>
 </template>

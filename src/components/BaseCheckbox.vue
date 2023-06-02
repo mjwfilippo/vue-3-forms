@@ -1,5 +1,6 @@
 <script setup>
 import UniqueID from "../features/UniqueID";
+import BaseErrorMessage from "./BaseErrorMessage.vue";
 
 defineProps({
   label: {
@@ -9,6 +10,10 @@ defineProps({
   modelValue: {
     type: Boolean,
     default: false
+  },
+  error: {
+    type: String,
+    default: ""
   }
 });
 
@@ -18,10 +23,16 @@ const uuid = UniqueID().getID();
 <template>
   <input
     type="checkbox"
-    :checked="modelValue"
-    :id="uuid"
     class="field"
-    @change="$emit('update:modelValue', $event.target.checked)"
+    :id="uuid"
+    :checked="modelValue"
+    v-bind="{
+      ...$attrs,
+      onChange: updateValue
+    }"
   />
   <label :for="uuid" v-if="label">{{ label }}</label>
+  <BaseErrorMessage v-if="error" :id="`${uuid}-error`">
+    {{ error }}
+  </BaseErrorMessage>
 </template>

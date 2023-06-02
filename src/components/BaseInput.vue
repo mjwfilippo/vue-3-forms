@@ -1,5 +1,6 @@
 <script setup>
 import UniqueID from "../features/UniqueID";
+import BaseErrorMessage from "./BaseErrorMessage.vue";
 
 defineProps({
   label: {
@@ -22,12 +23,12 @@ const uuid = UniqueID().getID();
 <template>
   <label :for="uuid" v-if="label">{{ label }}</label>
   <input
+    class="field"
+    :id="uuid"
     :value="modelValue"
     :placeholder="label"
-    :id="uuid"
     :aria-describedby="error ? `${uuid}-error` : null"
     :aria-invalid="error ? true : null"
-    class="field"
     v-bind="{
       ...$attrs,
       onInput: $event => {
@@ -36,12 +37,7 @@ const uuid = UniqueID().getID();
     }"
   />
 
-  <p
-    v-if="error"
-    class="errorMessage"
-    :id="`${uuid}-error`"
-    aria-live="assertive"
-  >
+  <BaseErrorMessage v-if="error" :id="`${uuid}-error`">
     {{ error }}
-  </p>
+  </BaseErrorMessage>
 </template>

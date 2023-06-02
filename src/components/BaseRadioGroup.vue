@@ -25,15 +25,13 @@ defineProps({
     v-for="option in options"
     :key="option.value"
     :is="vertical ? 'div' : 'span'"
-    :class="{
-      horizontal: !vertical
-    }"
+    :style="vertical ? '' : 'margin-right: 20px;'"
   >
     <BaseRadio
-      :label="option.label"
-      :value="option.value"
       :name="name"
+      :label="option.label"
       :modelValue="modelValue"
+      :value="option.value"
       @update:modelValue="$emit('update:modelValue', $event)"
     />
   </component>

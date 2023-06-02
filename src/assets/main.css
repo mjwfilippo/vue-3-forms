@@ -46,6 +46,49 @@ h6 {
   font-family: "Montserrat", sans-serif;
 }
 
+h1 {
+  font-size: 50px;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 38px;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+h5 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+h6 {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+small {
+  font-size: 80%;
+}
+
+.eyebrow {
+  font-size: 20px;
+}
+
 .-text-primary {
   color: #39b982;
 }
@@ -169,6 +212,8 @@ textarea {
 }
 
 [type="search"] {
+  -webkit-appearance: textfield;
+  appearance: none;
   outline-offset: -2px;
 }
 
@@ -179,6 +224,7 @@ textarea {
 [type="text"],
 [type="number"],
 [type="search"],
+[type="email"],
 [type="password"] {
   height: 52px;
   width: 100%;
@@ -189,6 +235,7 @@ textarea {
 [type="text"]:focus,
 [type="number"]:focus,
 [type="search"]:focus,
+[type="email"]:focus,
 [type="password"]:focus {
   border-color: #39b982;
 }

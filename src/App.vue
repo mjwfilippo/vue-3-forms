@@ -1,9 +1,9 @@
 <script setup>
-import SimpleForm from "./views/SimpleForm.vue";
+import LoginForm from "./views/LoginForm.vue";
 </script>
 
 <template>
   <div id="app">
-    <SimpleForm />
+    <LoginForm />
   </div>
 </template>
