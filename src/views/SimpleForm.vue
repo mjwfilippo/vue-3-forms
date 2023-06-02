@@ -1,7 +1,8 @@
 <script setup>
+// import axios from "axios";
+import { ref } from "vue";
 import BaseInput from "@/components/BaseInput.vue";
 import BaseSelect from "../components/BaseSelect.vue";
-import { ref } from "vue";
 import BaseCheckbox from "../components/BaseCheckbox.vue";
 import BaseRadioGroup from "../components/BaseRadioGroup.vue";
 
@@ -31,12 +32,16 @@ const event = ref({
     music: false
   }
 });
+
+function sendForm() {
+  // we will handle form submission here!
+}
 </script>
 
 <template>
   <div>
     <h1>Create an event</h1>
-    <form @keydown.enter.prevent>
+    <form @submit.prevent="sendForm">
       <BaseSelect
         :options="categories"
         v-model="event.category"
