@@ -3,6 +3,7 @@ import BaseInput from "@/components/BaseInput.vue";
 import BaseSelect from "../components/BaseSelect.vue";
 import { ref } from "vue";
 import BaseCheckbox from "../components/BaseCheckbox.vue";
+import BaseRadioGroup from "../components/BaseRadioGroup.vue";
 
 const categories = [
   "sustainability",
@@ -13,6 +14,12 @@ const categories = [
   "food",
   "community"
 ];
+
+const petOptions = [
+  { label: "Yes", value: 1 },
+  { label: "No", value: 0 }
+];
+
 const event = ref({
   category: "",
   title: "",
@@ -48,13 +55,11 @@ const event = ref({
 
       <h3>Are pets allowed?</h3>
       <div>
-        <input type="radio" v-model="event.pets" :value="1" name="pets" />
-        <label>Yes</label>
-      </div>
-
-      <div>
-        <input type="radio" v-model="event.pets" :value="0" name="pets" />
-        <label>No</label>
+        <BaseRadioGroup
+          v-model="event.pets"
+          name="pets"
+          :options="petOptions"
+        />
       </div>
 
       <h3>Extras</h3>
