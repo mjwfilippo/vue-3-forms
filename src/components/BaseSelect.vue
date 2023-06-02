@@ -1,4 +1,6 @@
 <script setup>
+import UniqueID from "../features/UniqueID";
+
 defineProps({
   label: {
     type: String,
@@ -13,13 +15,14 @@ defineProps({
     required: true
   }
 });
-defineEmits(["update:modelValue"]);
+const uuid = UniqueID().getID();
 </script>
 
 <template>
-  <label v-if="label">{{ label }}</label>
+  <label :for="uuid" v-if="label">{{ label }}</label>
   <select
     :value="modelValue"
+    :id="uuid"
     class="field"
     v-bind="{
       ...$attrs,

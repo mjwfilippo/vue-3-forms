@@ -1,4 +1,6 @@
 <script setup>
+import UniqueID from "../features/UniqueID";
+
 defineProps({
   label: {
     type: String,
@@ -13,7 +15,7 @@ defineProps({
     required: true
   }
 });
-defineEmits(["update:modelValue"]);
+const uuid = UniqueID().getID();
 </script>
 
 <template>
@@ -21,8 +23,13 @@ defineEmits(["update:modelValue"]);
     type="radio"
     :checked="modelValue === value"
     :value="value"
-    @change="$emit('update:modelValue', value)"
-    v-bind="$attrs"
+    :id="uuid"
+    v-bind="{
+      ...$attrs,
+      onChange: $event => {
+        $emit('update:modelValue', value);
+      }
+    }"
   />
-  <label v-if="label">{{ label }}</label>
+  <label :for="uuid" v-if="label">{{ label }}</label>
 </template>
