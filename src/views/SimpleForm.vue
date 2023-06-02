@@ -1,5 +1,5 @@
 <script setup>
-// import axios from "axios";
+import axios from "axios";
 import { ref } from "vue";
 import BaseInput from "@/components/BaseInput.vue";
 import BaseSelect from "../components/BaseSelect.vue";
@@ -34,7 +34,17 @@ const event = ref({
 });
 
 function sendForm() {
-  // we will handle form submission here!
+  axios
+    .post(
+      "https://my-json-server.typicode.com/mjwfilippo/vue-3-forms/events",
+      event.value
+    )
+    .then(response => {
+      console.log("Response", response);
+    })
+    .catch(err => {
+      console.log("Error", err);
+    });
 }
 </script>
 
