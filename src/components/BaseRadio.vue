@@ -1,5 +1,5 @@
 <script setup>
-import UniqueID from "../features/UniqueID";
+import UniqueID from "@/features/UniqueID";
 import BaseErrorMessage from "./BaseErrorMessage.vue";
 
 defineProps({
@@ -12,8 +12,7 @@ defineProps({
     default: ""
   },
   value: {
-    type: [String, Number],
-    required: true
+    type: [String, Number]
   },
   error: {
     type: String,
@@ -27,10 +26,13 @@ const uuid = UniqueID().getID();
   <input
     type="radio"
     :id="uuid"
-    :value="value"
     :checked="modelValue === value"
-    v-bind="$attrs"
-    @change="$emit('update:modelValue', value)"
+    v-bind="{
+      ...$attrs,
+      onChange: $event => {
+        $emit('update:modelValue', $event.target.value);
+      }
+    }"
   />
   <label :for="uuid" v-if="label">{{ label }}</label>
 

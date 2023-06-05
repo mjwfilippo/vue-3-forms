@@ -213,7 +213,7 @@ textarea {
 
 [type="search"] {
   -webkit-appearance: textfield;
-  appearance: none;
+  appearance: textfield;
   outline-offset: -2px;
 }
 

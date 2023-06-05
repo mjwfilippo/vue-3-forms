@@ -1,5 +1,5 @@
 <script setup>
-import UniqueID from "../features/UniqueID";
+import UniqueID from "@/features/UniqueID";
 import BaseErrorMessage from "./BaseErrorMessage.vue";
 
 defineProps({
@@ -29,6 +29,7 @@ const uuid = UniqueID().getID();
     :placeholder="label"
     :aria-describedby="error ? `${uuid}-error` : null"
     :aria-invalid="error ? true : null"
+    :class="{ error }"
     v-bind="{
       ...$attrs,
       onInput: $event => {

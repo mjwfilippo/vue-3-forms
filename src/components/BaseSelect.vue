@@ -1,5 +1,5 @@
 <script setup>
-import UniqueID from "../features/UniqueID";
+import UniqueID from "@/features/UniqueID";
 import BaseErrorMessage from "./BaseErrorMessage.vue";
 
 defineProps({

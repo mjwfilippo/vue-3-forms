@@ -2,9 +2,9 @@
 import axios from "axios";
 import { ref } from "vue";
 import BaseInput from "@/components/BaseInput.vue";
-import BaseSelect from "../components/BaseSelect.vue";
-import BaseCheckbox from "../components/BaseCheckbox.vue";
-import BaseRadioGroup from "../components/BaseRadioGroup.vue";
+import BaseSelect from "@/components/BaseSelect.vue";
+import BaseCheckbox from "@/components/BaseCheckbox.vue";
+import BaseRadioGroup from "@/components/BaseRadioGroup.vue";
 
 const categories = [
   "sustainability",

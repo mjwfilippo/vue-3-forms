@@ -1,5 +1,5 @@
 <script setup>
-import UniqueID from "../features/UniqueID";
+import UniqueID from "@/features/UniqueID";
 import BaseErrorMessage from "./BaseErrorMessage.vue";
 
 defineProps({
@@ -9,7 +9,7 @@ defineProps({
   },
   modelValue: {
     type: Boolean,
-    default: false
+    default: "false"
   },
   error: {
     type: String,
@@ -28,7 +28,9 @@ const uuid = UniqueID().getID();
     :checked="modelValue"
     v-bind="{
       ...$attrs,
-      onChange: updateValue
+      onChange: $event => {
+        $emit('update:modelValue', $event.target.checked);
+      }
     }"
   />
   <label :for="uuid" v-if="label">{{ label }}</label>

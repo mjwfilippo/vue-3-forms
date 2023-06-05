@@ -1,9 +1,10 @@
 <script setup>
-import BaseButton from "../components/BaseButton.vue";
-import BaseCheckbox from "../components/BaseCheckbox.vue";
-import BaseInput from "../components/BaseInput.vue";
-import BaseRadioGroup from "../components/BaseRadioGroup.vue";
-import BaseSelect from "../components/BaseSelect.vue";
+import { useField, useForm } from "vee-validate";
+import BaseButton from "@/components/BaseButton.vue";
+import BaseCheckbox from "@/components/BaseCheckbox.vue";
+import BaseInput from "@/components/BaseInput.vue";
+import BaseRadioGroup from "@/components/BaseRadioGroup.vue";
+import BaseSelect from "@/components/BaseSelect.vue";
 
 const categories = [
   "sustainability",
@@ -15,83 +16,124 @@ const categories = [
   "community"
 ];
 
-const petOptions = [
-  { label: "Yes", value: 1 },
-  { label: "No", value: 0 }
-];
+const required = value => {
+  const requiredMessage = "This field is required";
+  if (value === undefined || value === null) return requiredMessage;
+  if (!String(value).length) return requiredMessage;
+  return true;
+};
 
-function createEvent() {
-  console.log("submit");
-}
+const minLength = (number, value) => {
+  if (String(value).length < number)
+    return "Please type at least " + number + " characters";
+  return true;
+};
+
+const anything = () => {
+  return true;
+};
+
+const validationSchema = {
+  category: required,
+  title: value => {
+    const req = required(value);
+    if (req !== true) return req;
+
+    const min = minLength(3, value);
+    if (min !== true) return min;
+
+    return true;
+  },
+  description: required,
+  location: undefined,
+  pets: anything,
+  catering: anything,
+  music: anything
+};
+
+const { handleSubmit, errors } = useForm({
+  validationSchema,
+  initialValues: {
+    pets: 1,
+    catering: false,
+    music: false
+  }
+});
+
+const { value: category } = useField("category");
+const { value: title } = useField("title");
+const { value: description } = useField("description");
+const { value: location } = useField("location");
+const { value: pets } = useField("pets");
+const { value: catering } = useField("catering");
+const { value: music } = useField("music");
+
+const submit = handleSubmit(values => {
+  console.log("submit", values);
+});
 </script>
 
 <template>
   <div>
     <h1>Create an Event</h1>
-    <form @submit.prevent="createEvent">
+    <form @submit="submit">
       <BaseSelect
-        :options="categories"
-        v-model="event.category"
         label="Select a category"
-        error="This field is required"
+        :options="categories"
+        v-model="category"
+        :error="errors.category"
       />
 
-      <fieldset>
-        <legend>Name & describe your event</legend>
+      <h3>Name & describe your event</h3>
+      <BaseInput
+        label="Title"
+        v-model="title"
+        :error="errors.title"
+        type="text"
+      />
 
-        <BaseInput
-          v-model="event.title"
-          label="Title"
-          type="text"
-          error="This field is required"
+      <BaseInput
+        label="Description"
+        v-model="description"
+        :error="errors.description"
+        type="text"
+      />
+
+      <h3>Where is your event?</h3>
+      <BaseInput
+        label="Location"
+        v-model="location"
+        :error="errors.location"
+        type="text"
+      />
+
+      <h3>Are pets allowed?</h3>
+      <BaseRadioGroup
+        v-model="pets"
+        :error="errors.pets"
+        name="pets"
+        :options="[
+          { value: 1, label: 'Yes' },
+          { value: 0, label: 'No' }
+        ]"
+      />
+
+      <h3>Extras</h3>
+      <div>
+        <BaseCheckbox
+          label="Catering"
+          v-model="catering"
+          :error="errors.catering"
         />
+      </div>
 
-        <BaseInput
-          v-model="event.description"
-          label="Description"
-          type="text"
+      <div>
+        <BaseCheckbox
+          label="Live music"
+          v-model="music"
+          :error="errors.music"
         />
-      </fieldset>
-
-      <fieldset>
-        <legend>Where is your event?</legend>
-
-        <BaseInput v-model="event.location" label="Location" type="text" />
-      </fieldset>
-
-      <fieldset>
-        <legend>Pets</legend>
-
-        <p>Are pets allowed?</p>
-        <div>
-          <BaseRadioGroup
-            v-model="event.pets"
-            name="pets"
-            :options="petOptions"
-          />
-        </div>
-
-        <template v-if="event.pets === 0">
-          <p>Are you sure? 🐶</p>
-          <BaseRadioGroup
-            v-model="event.petsagain"
-            name="petsagain"
-            :options="petOptions"
-          />
-        </template>
-      </fieldset>
-
-      <fieldset>
-        <legend>Extras</legend>
-
-        <div>
-          <BaseCheckbox v-model="event.extras.catering" label="Catering" />
-        </div>
-
-        <div>
-          <BaseCheckbox v-model="event.extras.music" label="Live music" />
-        </div>
-      </fieldset>
+      </div>
 
       <div>
         <BaseButton type="submit" class="-fill-gradient" something="else">
@@ -99,21 +141,5 @@ function createEvent() {
         </BaseButton>
       </div>
     </form>
-
-    <pre>{{ event }}</pre>
   </div>
 </template>
-
-<style>
-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-legend {
-  font-size: 28px;
-  font-weight: 700;
-  margin-top: 20px;
-}
-</style>
