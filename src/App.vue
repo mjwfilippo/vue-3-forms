@@ -1,10 +1,10 @@
 <script setup>
-import ComponentsForm from "@/views/ComponentsForm.vue";
+import LoginForm from "@/views/LoginForm.vue";
 </script>
 
 <template>
   <div id="app">
-    <ComponentsForm />
+    <LoginForm />
   </div>
 </template>
 
