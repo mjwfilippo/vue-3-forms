@@ -8,8 +8,7 @@ defineProps({
     default: ""
   },
   modelValue: {
-    type: Boolean,
-    default: "false"
+    type: Boolean
   },
   error: {
     type: String,
